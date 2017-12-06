@@ -117,7 +117,10 @@ function points(elements) {
         left,
         right
       } = el.getBoundingClientRect();
-
+      
+      top +=window.scrollY;
+      bottom +=window.scrollY;
+      
       let sx = window.pageXoffset || 0;
       let sy = window.pageYoffset || 0;
       // console.log(left,sx)
@@ -185,7 +188,7 @@ function snapline([a, b], color) {
   l.style = `
     stroke-width:1;
     stroke:${color};
-    opacity:0.35`;
+    opacity:0.15`;
   wall.appendChild(l);
 }
 
