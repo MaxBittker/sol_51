@@ -59,14 +59,8 @@ function intersect([wA, wB], [rA, rB]) {
   if (r1 !== 0 && r2 !== 0 && sameSign(r1, r2)) {
     return 0; //return that they do not intersect
   }
-  //Line segments intersect: compute intersection point.
-  denom = a1 * b2 - a2 * b1;
-  if (denom === 0) {
-    return 1; //collinear
-  }
 
-  // lines_intersect
-  return 1; //lines intersect, return true
+  return true; //lines intersect, return true
 }
 
 let xmlns = "http://www.w3.org/2000/svg";
@@ -75,7 +69,8 @@ let svg = document.createElementNS(xmlns, "svg");
 let width = document.body.getBoundingClientRect().width;
 let height = Math.max(
   document.body.getBoundingClientRect().height,
-  window.innerHeight
+  document.body.scrollHeight,
+  window.innerHeight,
 );
 svg.id = "drawing51";
 svg.style = `
@@ -94,7 +89,7 @@ document.body.append(svg);
 let wall = document.getElementById("drawing51");
 
 function features() {
-  let all = document.querySelectorAll("div,img,svg,iframe,table,canvas"); //,h1,h2,h3,h4,h5,img,body,ul,ol,table,button,form,input,textarea,iframe,canvas')
+  let all = document.querySelectorAll("div,img,svg,iframe,table,canvas, h1");
   return Array.prototype.slice.call(all);
 }
 
@@ -148,8 +143,6 @@ function points(elements) {
 let ps = points(features());
 ps = flatten(ps);
 
-// console.log(ps.length);
-
 function pairings(ps) {
   let pps = [];
   let p;
@@ -192,12 +185,9 @@ function snapline([a, b], color) {
   l.style = `
     stroke-width:1;
     stroke:${color};
-    opacity:0.1`;
+    opacity:0.35`;
   wall.appendChild(l);
 }
-
-// console.log(pairs.length)
-// console.log(pairs)
 
 function draft(lines, color) {
   if (lines.length) {
@@ -209,5 +199,5 @@ function draft(lines, color) {
 }
 
 draft(goodpairs, "blue");
-let badpairs = pairs.filter(a => !validpairing(a));
+// let badpairs = pairs.filter(a => !validpairing(a));
 // draft(badpairs, 'red')
